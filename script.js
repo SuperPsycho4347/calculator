@@ -1,76 +1,99 @@
-let firstOperand, secondOperand, actualOperator;
-
-firstOperand = getNum();
-secondOperand = getNum();
-
-
-function operate() {
-
-    
+function add(firstNum, secondNum) {
+    return firstNum + secondNum;
 }
 
-function getNum() {
-    const container = document.querySelector('.container');
-    let selectNum;
-    container.addEventListener('click', (event) => {
-        switch (event.target.id) {
-            case '9':
-                selectNum = 9;
-                break;
-            case '8':
-                selectNum = 8;
-                break;
-            case '7':
-                selectNum = 7;
-                break;
-            case '6':
-                selectNum = 6;
-                break;
-            case '5':
-                selectNum = 5;
-                break;
-            case '4':
-                selectNum = 4;
-                break;
-            case '3':
-                selectNum = 3;
-                break;
-            case '2':
-                selectNum = 2;
-                break;
-            case '1':
-                selectNum = 1;
-                break;
-            case '0':
-                selectNum = 0;
-                break;
-        }
-        display(selectNum);
-        return selectNum;
+function subtract(firstNum, secondNum) {
+    return firstNum - secondNum;
+}
+
+function multiply(firstNum, secondNum) {
+    return firstNum * secondNum;
+}
+
+function divide(firstNum, secondNum) {
+    if (firstNum == 0 || secondNum == 0) {
+        return "BRUH."
+    }
+    else {
+        return firstNum / secondNum;
+    }
+}
+
+function operate(firstNum, secondNum, workingOperator) {
+    let operationResult = 0;
+    switch (workingOperator) {
+        case "add":
+            operationResult = add(firstNum, secondNum);
+            displayButton.textContent = operationResult;
+            break;
+        case "subtract":
+            operationResult = subtract(firstNum, secondNum);
+            displayButton.textContent = operationResult;
+            break;
+        case "multiply":
+            operationResult = multiply(firstNum, secondNum);
+            displayButton.textContent = operationResult;
+            break;
+        case "divide":
+            operationResult = divide(firstNum, secondNum);
+            displayButton.textContent = operationResult;
+            break;
+    }
+}
+
+// Variables initialization
+let firstNum, workingOperator, secondNum;
+const numButtons = document.querySelectorAll('.number');
+const displayButton = document.querySelector('.display');
+const operatorButtons = document.querySelectorAll('.operator');
+const equalButton = document.querySelector('.equal')
+const clearButton = document.querySelector('.clear');
+
+// Event listeners for numbers
+numButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        displayButton.textContent = button.textContent;
     })
-}
+})
 
-function getOperand() {
-    
-}
+// Event listener for operators
+operatorButtons.forEach((operator) => {
+    operator.addEventListener('click', () => {
+        if (operator.textContent == '+') {
+            firstNum = parseFloat(displayButton.textContent);
+            displayButton.textContent = operator.textContent;
+            workingOperator = "add";
+        }
+        else if (operator.textContent == '-') {
+            firstNum = parseFloat(displayButton.textContent);
+            displayButton.textContent = operator.textContent;
+            workingOperator = "subtract";
+        }
+        else if (operator.textContent == '/') {
+            firstNum = parseFloat(displayButton.textContent);
+            displayButton.textContent = operator.textContent;
+            workingOperator = "divide";
+        }
+        if (operator.textContent == 'X') {
+            firstNum = parseFloat(displayButton.textContent);
+            displayButton.textContent = operator.textContent;
+            workingOperator = "multiply";
+        }
+    })
+})
 
-function display(passedOperand) {
-    const displayPara = document.querySelector('.display');
-    displayPara.textContent = passedOperand;
-}
+// Listener for equal button
+equalButton.addEventListener('click', () => {
+    if (displayButton.textContent !== "") {
+        secondNum = parseFloat(displayButton.textContent);
+        operate(firstNum, secondNum, workingOperator);
+    }
+})
 
-function add() {
-
-}
-
-function subtract() {
-
-}
-
-function multiply() {
-
-}
-
-function divide() {
-
-}
+// Listener for clear button
+clearButton.addEventListener('click', () => {
+    firstNum = 0;
+    secondNum = 0;
+    workingOperator = 0;
+    displayButton.textContent = "";
+})
