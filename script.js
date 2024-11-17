@@ -24,25 +24,23 @@ function operate(firstNum, secondNum, workingOperator) {
     switch (workingOperator) {
         case "add":
             operationResult = add(firstNum, secondNum);
-            displayButton.textContent = operationResult;
             break;
         case "subtract":
             operationResult = subtract(firstNum, secondNum);
-            displayButton.textContent = operationResult;
             break;
         case "multiply":
             operationResult = multiply(firstNum, secondNum);
-            displayButton.textContent = operationResult;
             break;
         case "divide":
             operationResult = divide(firstNum, secondNum);
-            displayButton.textContent = operationResult;
             break;
     }
+    return operationResult;
 }
 
 // Variables initialization
 let firstNum, workingOperator, secondNum;
+let actualResult;
 const numButtons = document.querySelectorAll('.number');
 const displayButton = document.querySelector('.display');
 const operatorButtons = document.querySelectorAll('.operator');
@@ -52,7 +50,15 @@ const clearButton = document.querySelector('.clear');
 // Event listeners for numbers
 numButtons.forEach((button) => {
     button.addEventListener('click', () => {
-        displayButton.textContent = button.textContent;
+        if (displayButton.textContent.length < 15 && displayButton.textContent == 0) {
+            displayButton.textContent = button.textContent;
+        }
+        else if (displayButton.textContent.length < 15 && actualResult === "e") {
+            displayButton.textContent = button.textContent;
+        }
+        else if (displayButton.textContent.length < 15) {
+            displayButton.textContent = button.textContent;
+        }
     })
 })
 
@@ -61,21 +67,25 @@ operatorButtons.forEach((operator) => {
     operator.addEventListener('click', () => {
         if (operator.textContent == '+') {
             firstNum = parseFloat(displayButton.textContent);
+            secondNum = 0;
             displayButton.textContent = operator.textContent;
             workingOperator = "add";
         }
         else if (operator.textContent == '-') {
             firstNum = parseFloat(displayButton.textContent);
+            secondNum = 0;
             displayButton.textContent = operator.textContent;
             workingOperator = "subtract";
         }
         else if (operator.textContent == '/') {
             firstNum = parseFloat(displayButton.textContent);
+            secondNum = 0;
             displayButton.textContent = operator.textContent;
             workingOperator = "divide";
         }
         if (operator.textContent == 'X') {
             firstNum = parseFloat(displayButton.textContent);
+            secondNum = 0;
             displayButton.textContent = operator.textContent;
             workingOperator = "multiply";
         }
@@ -86,7 +96,12 @@ operatorButtons.forEach((operator) => {
 equalButton.addEventListener('click', () => {
     if (displayButton.textContent !== "") {
         secondNum = parseFloat(displayButton.textContent);
-        operate(firstNum, secondNum, workingOperator);
+        actualResult = operate(firstNum, secondNum, workingOperator);
+        displayButton.textContent = actualResult.toString();
+        firstNum = actualResult;
+        secondNum = null;
+        workingOperator = "";
+        actualResult = "e";
     }
 })
 
@@ -94,6 +109,6 @@ equalButton.addEventListener('click', () => {
 clearButton.addEventListener('click', () => {
     firstNum = 0;
     secondNum = 0;
-    workingOperator = 0;
+    workingOperator = "";
     displayButton.textContent = "";
 })

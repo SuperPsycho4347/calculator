@@ -29,6 +29,10 @@ button {
     background-color: #776B5D;
 }
 
+button:hover {
+    background-color: #585046;
+}
+
 .display {
     width: 438px;
 }
